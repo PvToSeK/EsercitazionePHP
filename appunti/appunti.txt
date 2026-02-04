@@ -1,0 +1,76 @@
+04/02
+Il database è una struttura dati, al suo interno abbiamo delle tabelle.
+é composta da un'intestazione di colonna e poi ogni riga rappresenta un elemento
+tabelle = relazioni del modello logico.
+DDL cos'è
+comando CREATE si usa per creare
+es: CREATE DATABASE <nome>; crea il contenitore logico
+CREATE TABLE <nome>;     crea la struttura(tabella)
+
+CREATE TABLE <NOME>(
+<NOME_ATTRIBUTO> <TIPO><XINCOLO/CONSTRAINT>,
+CONSTRAINT <TIPO_CONSTRAINT> <NOME> <ATTRIBUTI>
+);
+  NOME_ATTRIBUTO e TIPO sono oobbligatori.
+tipi di dati in sql:
+
+INTERI: TINYINT, SMALLINT, INT, BIGINT
+DECIMALI/MONETARI: DECIMAL, FLOAT, DOUBLE
+STRINGA: VARCHAR(n), CHAR(n)
+TESTO LUNGO: TEXT, LONGTEXT
+DATA ORA: DATE, TIMESTAMP
+BOOLEANO: BOOLEANO, TINYINT (1)
+BINARIO: BLOB
+JSON: JSON
+
+VINCOLI:
+primary key:parola riservata:
+PRIMARY KEY
+Sintassi:
+
+se la chiave primaria è composta da un solo attributo 
+su utilizza la parola riservata nella definizione della colonna.
+
+se la chiave primaria è composta da più attributi, 
+va aggiunta in coda alla dichiarazione degli attributi utilizzando il comando CONSTRAINT
+
+FOREIGN KEY:
+
+UNIQUE:
+parola riservata:
+UNIQUE
+Significato:
+il valore di un attributo è unico, non sono ammessi duplicati.
+Sintassi:
+si utilizza in coda alla dichiarazione dell'attributo.
+CREATE TABLE utenti (
+id int PRIMARY KEY,
+email VARCHAR(255) UNIQUE,
+nome VARCHAR(100) NOT NULL
+);
+
+NOT NULL
+parola riservata:
+NOT NULL
+Significato:
+L'attributo obbligatorio, non può valere NULL.
+Sintassi:
+si utilizza in coda alla dichiarazione dell'attributo.
+CREATE TABLE utenti (
+id int PRIMARY KEY,
+email VARCHAR(255) UNIQUE,
+nome VARCHAR(100) NOT NULL
+);
+
+CHECK:
+parola riservata:
+CHECK(<condizione>)
+Significato:
+Impone un controllo sul valore dei dati assegnati all'attributo.
+Sintassi:
+si utilizza in coda alla dichiarazione dell'attributo.
+CREATE TABLE utenti (
+eta int CHECK (eta >= 18)
+)
+
+
