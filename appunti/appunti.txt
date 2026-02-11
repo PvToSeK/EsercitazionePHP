@@ -73,4 +73,135 @@ CREATE TABLE utenti (
 eta int CHECK (eta >= 18)
 )
 
+09/02
+IDDL - Data Definition Language
+Creo un dominio CREATE DOMAIN
+CREATE DOMAIN NomeDominio AS Tipo [DEAFAULT valore] [CHECK vincolo]
+Modifica tabella ALTER TABLE
+Aggiungo un attributo:
+ALTER TABLE nometabella
+ADD COLUMN
+nomeAttirbuto
+Dominio
+Vicoli
+Esempio:
+Aggiungo cf alla tabella utenti
+alter table utenti
+add column cf varchar(16);
+Cancello un attributo:
+ALTER TABLE nometabella DROP COLUMN nomeAttirbuto;
+Modifico un attributo:
+ALTER TABLE nometabella MODIFY COLUMN nomeAttirbuto Modifica;
+alter table utenti modify column cf varchar(16);
+Aggiungo chiave esterna - FK (integrità referenziale)
+ALTER TABLE nometabella
+ADD CONSTRAINT nome
+FOREIGN KEY (nomeAttributo)
+REFERENCES nometabella (nomeAttributo);
+alter table volo add constraint FK_volo_Aereo foreign key (IdAereo) references aereo (idAereo);
 
+Cancello una tabella
+DROP TABLE nometabella;
+drop table volo;
+Cancellare i dati di una tabella
+TRUNCATE TABLE nometabella;
+truncate table volo;
+Cancello un vincolo
+ALTER TABLE nometabella DROP CHECK nome Vincolo;
+In MySql
+ALTER TABLE nometabella DROP COSTRAINT nome Vincolo;
+Assegnare un valore di default a un attributo
+ALTER TABLE nometabella
+ALTER nomeAttributo
+SET DEFAULT valore;
+alter table volo
+alter oraPartenza
+set default
+0;
+
+11/02
+PHP & SQL 
+Connessione al database
+mysqli:
+Restituisce un oggetto che rappresenta la connessione al database.
+Utilizziamo i metodi dell'oggetto per interagire con il database.
+mysqli_connect:
+Restituisce la connessione al database.
+Consente di utilizzare funzioni per interagire con il database
+
+Connessione al database
+Creo la connessione:
+$con = new mysqli($host, $user, $password, $database);
+Chiudo la connessione:
+$con->close();
+Creo la connessione:
+$con = mysqli_connect($host, $user, $password, $database);
+Chiudo la connessione:
+mysqli_close($con);
+
+Eseguire la query
+Eseguire una query:
+Eseguire una query:
+$result = $con->query($query)
+$result = mysqli_query($con, $query)
+$result contiene il risultato della query
+contiene il risultato della query
+Vantaggi dell'oggetto mysqli
+Si consiglia di utilizzare la creazione dell'oggetto mysqli per una maggior flessibilità e sicurezza delle query.
+Vantaggi di utilizzare un oggetto mysqli:
+Possiamo dichiare le query (solo modello logico) e associare i parametri in modo sicuro, utilizzando la funzione mysqli_stm_prepare().
+Possiamo passare i parametri della query dichiarata, utilizzando il comando mysqli_stmt_bind().
+Possiamo eseguire la query preparato con il comando mysql_stmt_execute().
+Possiamo associare il risultato delle query a variabili con il comando mysqli_stmt_get_result().
+
+
+INSERIMENTO
+1. Stabilire la connessione al database
+a. $conn = new mysqli($host, $user, $pass, $db);
+2. Controllare che la connessione sia riuscita
+a. $conn->connect_error
+3. Scrivere la query
+a. $sql = "INSERT INTO studenti (nome, cognome, eta) VALUES ('$nome', '$cognome', $eta)";
+4. Eseguire la query
+a. $conn->query($sql)
+5. Verificare il risultato della query
+a. if($conn->query($sql) === TRUE)
+6. Assegno i valori alle variabili
+a. $nome = "Marco"; $cognome = "Rossi"; $eta = 17;
+7. Eseguo la query pre-caricata
+a. $stmt->execute()
+8. Controllo che la query vada a
+buon fine:
+a. if ($stmt->execute())
+9. Libero la memoria
+a. $stmt->close();
+10. Chiudo la connessione
+a. $conn->close();
+
+Prepare la query con oggetti
+MySQL supporta le istruzioni parametrizzate.
+E' utilizzata per proteggersi da sql injection e migliorare l'efficienza.
+Il flusso delle istruzioni si dividono in due fasi: preparazione ed esecuzione.
+inviamo al dbms il la dichiarazione dell'istruzione. Il dbms esegue il controllo sintattico e inizializza le risorse che verranno utilizzate.
+con il simbolo? (segnaposto) indico i valori che saranno aggiunti in fase di esecuzione.
+durante la fase di esecuzione il client associa i valori dei parametri e li invia al server.
+$query("select * from persona where nome = ?");
+$stmt = $con->prepare($query);
+ps: stmt = statement (dichiarazione)
+
+Bind dei valori con oggetti
+Associa ai segnaposti (?) di una query dichiarata i valori
+bind_param(string tipo, $vars,...):bool
+tipo
+descrizione
+type indica il tipo di ogni dato passato
+indica una variabile intera
+$stmt = $con->prepare($query);
+d
+indica una variabile reale (float)
+S
+$stmt->bind_param(tipo, $var1, $var2);
+indica una variabile stringa
+b
+indica una variabile blob
+restituisce true in caso di successo, false in caso di fallimento
