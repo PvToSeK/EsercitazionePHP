@@ -1,4 +1,6 @@
 04/02
+DQL
+
 Il database è una struttura dati, al suo interno abbiamo delle tabelle.
 é composta da un'intestazione di colonna e poi ogni riga rappresenta un elemento
 tabelle = relazioni del modello logico.
@@ -205,3 +207,38 @@ indica una variabile stringa
 b
 indica una variabile blob
 restituisce true in caso di successo, false in caso di fallimento
+
+
+16/01/2026
+Select <cosa> e from<da dove> cosa fanno
+criteri di selezione vanno specificati nel comando select
+
+where<come> <= inseriamo criteri di condizioni,
+può contenere operatori di confronto >,>=,<,<=,=,!=,<>
+operatori logici: AND, OR.
+
+ESEMPIO:
+Select * From Persona where eta>17
+cosa sono le tuple?cuple? forse il prof parla di couple.
+Select Nome,Cognome From Persona where eta>17
+Select * From Persona where eta>17 and Nome = "Anna";
+
+
+parola riservata: BETWEEN RANGE
+Select * From Persona where eta between 10 and 15;
+
+
+parola riservata: LIKE, usata per selezionare in base ai caratteri contenuti in una parola
+LIKE => % => _ 
+% = Indica un numero arbitrario di carattere.
+_ = indica un carattere
+
+SELECT * from Persona
+SELECT NOME LIKE 'A%' nome LIKE '%A'
+SELECT NOME LIKE 'A_' nome LIKE '_A%' seleziono tutti i nomi che hanno come seconda lettera la A 
+
+
+parola riservata: AS 
+modifica dei campi:
+1. SELECT nome,descrizione, prezzo * 0.85 FROM prodotto AS Prezzo_Scontato
+2. SELECT nome,descrizione, prezzo * 0.85 FROM prodotto Prezzo_Scontato
