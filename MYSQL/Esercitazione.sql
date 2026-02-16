@@ -33,19 +33,37 @@ CREATE TABLE Biblioteca.prestito (
 );
 
 INSERT INTO Biblioteca.utente VALUES
-(1, 'Mario', 'Rossi', 'm.rossi@mail.it', 25),
-(2, 'Giulia', 'Bianchi', 'g.bianchi@mail.it', 19),
-(3, 'Luca', 'Verdi', 'l.verdi@mail.it', 34),
-(4, 'Sara', 'Neri', 's.neri@mail.it', 16);
+(1, 'Mario', 'Rossi', 'mario.rossi@gmail.com', 25),
+(2, 'Giulia', 'Bianchi', 'giulia.bianchi@yahoo.com', 19),
+(3, 'Luca', 'Verdi', 'luca.verdi@gmail.com', 34),
+(4, 'Sara', 'Neri', 'sara.neri@gmail.com', 16),
+(5, 'Anna', 'Gialli', 'anna.gialli@hotmail.com', 22),
+(6, 'Marco', 'Blu', 'marco.blu@gmail.com', 17),
+(7, 'Elena', 'Rosa', 'elena.rosa@libero.it', 28),
+(8, 'Davide', 'Marroni', 'davide.marroni@gmail.com', 15);
+
 
 INSERT INTO Biblioteca.libro VALUES
- (1, 'Il Nome Rosa', 'Eco', '978884524', 1980),
-(2, '1984', 'Orwell', '978045152', 1949),
-(3, 'Divina Commedia', 'Dante', '978014243', 1600),
-(4, 'Il Principe', 'Machiavelli', '978019953', 1532);
+(1, 'Il Nome della Rosa', 'Umberto Eco', '9788845240001', 1980),
+(2, '1984', 'George Orwell', '9780451520002', 1949),
+(3, 'Il Codice Da Vinci', 'Dan Brown', '9788804660003', 2003),
+(4, 'Hunger Games', 'Suzanne Collins', '9788804670004', 2008),
+(5, 'Il Trono di Spade', 'George R. R. Martin', '9788804680005', 2011),
+(6, 'Inferno', 'Dan Brown', '9788804690006', 2013),
+(7, 'Ready Player One', 'Ernest Cline', '9788804700007', 2011),
+(8, 'Il Labirinto', 'James Dashner', '9788804710008', 2012);
 
 INSERT INTO Biblioteca.prestito VALUES 
 (1, 1, 1, '2024-01-10', '2024-01-20'),
 (2, 2, 2, '2024-02-01', NULL),
 (3, 3, 1, '2024-02-15', '2024-02-28'),
 (4, 4, 3, '2024-03-01', NULL);
+
+
+
+SELECT * FROM biblioteca.utente;
+SELECT * FROM biblioteca.libro;
+SELECT * FROM biblioteca.utente where eta<18;
+SELECT * FROM biblioteca.libro where anno_pubblicazione>2009;
+SELECT nome,cognome,eta FROM biblioteca.utente where email LIKE '%@gmail.com';
+
