@@ -1,0 +1,124 @@
+Appunti SQL & PHP
+
+04/02 — DDL (Data Definition Language)
+Un database è una struttura dati organizzata in tabelle. Ogni tabella corrisponde a una relazione del modello logico ed è composta da un'intestazione (le colonne) e da righe, dove ogni riga rappresenta un record.
+Il DDL è la parte di SQL che si occupa di definire la struttura del database, non i dati al suo interno.
+Creare un database e una tabella
+Il comando CREATE serve per creare nuovi oggetti. Per creare un database si usa:
+sqlCREATE DATABASE nome_database;
+Per creare una tabella:
+sqlCREATE TABLE nome_tabella (
+  nome_attributo TIPO [VINCOLI],
+  CONSTRAINT tipo_constraint nome attributi
+);
+nome_attributo e TIPO sono obbligatori.
+Tipi di dati in SQL
+
+Interi: TINYINT, SMALLINT, INT, BIGINT
+Decimali/Monetari: DECIMAL, FLOAT, DOUBLE
+Stringhe: VARCHAR(n) (lunghezza variabile), CHAR(n) (lunghezza fissa)
+Testo lungo: TEXT, LONGTEXT
+Data/Ora: DATE, TIMESTAMP
+Booleano: BOOLEAN oppure TINYINT(1)
+Binario: BLOB
+JSON: JSON
+
+Vincoli (Constraints)
+I vincoli servono a garantire l'integrità dei dati.
+PRIMARY KEY — identifica univocamente ogni riga della tabella. Se la chiave primaria è composta da un solo attributo, si dichiara direttamente accanto alla colonna. Se è composta da più attributi, va aggiunta in fondo con CONSTRAINT.
+FOREIGN KEY — collega due tabelle creando un'integrità referenziale: il valore dell'attributo deve esistere nella tabella a cui fa riferimento.
+UNIQUE — garantisce che i valori di una colonna non abbiano duplicati. Si dichiara in coda alla definizione della colonna.
+NOT NULL — rende l'attributo obbligatorio: non può contenere valori vuoti.
+CHECK — impone una condizione sul valore inserito. Esempio: CHECK(eta >= 18) impedisce di inserire valori inferiori a 18.
+Esempio completo:
+sqlCREATE TABLE utenti (
+  id INT PRIMARY KEY,
+  email VARCHAR(255) UNIQUE,
+  nome VARCHAR(100) NOT NULL,
+  eta INT CHECK (eta >= 18)
+);
+
+09/02 — Modifica e gestione delle tabelle (ALTER, DROP, TRUNCATE)
+Creare un dominio personalizzato
+sqlCREATE DOMAIN NomeDominio AS Tipo [DEFAULT valore] [CHECK vincolo];
+Permette di definire un tipo di dato personalizzato con vincoli inclusi.
+Modificare una tabella esistente con ALTER TABLE
+Per aggiungere una colonna:
+sqlALTER TABLE utenti ADD COLUMN cf VARCHAR(16);
+Per eliminare una colonna:
+sqlALTER TABLE utenti DROP COLUMN cf;
+Per modificare una colonna:
+sqlALTER TABLE utenti MODIFY COLUMN cf VARCHAR(20);
+Per aggiungere una chiave esterna (FK):
+sqlALTER TABLE volo
+ADD CONSTRAINT FK_volo_Aereo
+FOREIGN KEY (IdAereo) REFERENCES aereo(idAereo);
+Per assegnare un valore di default:
+sqlALTER TABLE volo ALTER oraPartenza SET DEFAULT 0;
+Eliminare e svuotare tabelle
+DROP TABLE nome elimina completamente la tabella (struttura + dati).
+TRUNCATE TABLE nome svuota i dati ma mantiene la struttura.
+Eliminare un vincolo
+In MySQL:
+sqlALTER TABLE nome DROP CONSTRAINT nomeVincolo;
+
+11/02 — PHP & SQL: connessione e query
+PHP permette di interagire con MySQL in due modi: tramite l'oggetto mysqli oppure tramite le funzioni procedurali mysqli_*. Si consiglia l'approccio a oggetti per maggiore flessibilità e sicurezza.
+Connessione al database
+Con oggetti:
+php$con = new mysqli($host, $user, $password, $database);
+$con->close(); // per chiudere
+Con funzioni:
+php$con = mysqli_connect($host, $user, $password, $database);
+mysqli_close($con); // per chiudere
+Eseguire una query
+php$result = $con->query($query); // con oggetti
+$result = mysqli_query($con, $query); // con funzioni
+Query preparate (Prepared Statements)
+Le query preparate proteggono dall'SQL Injection e migliorano le prestazioni. Funzionano in due fasi: prima si prepara la query con dei segnaposto ?, poi si eseguono associando i valori reali.
+php$stmt = $con->prepare("SELECT * FROM persona WHERE nome = ?");
+$stmt->bind_param("s", $nome); // "s" = string
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
+$con->close();
+I tipi da passare a bind_param sono: i per interi, d per decimali (float), s per stringhe, b per blob.
+Esempio completo di INSERT
+php$conn = new mysqli($host, $user, $pass, $db);
+if ($conn->connect_error) { die("Connessione fallita"); }
+
+$stmt = $conn->prepare("INSERT INTO studenti (nome, cognome, eta) VALUES (?, ?, ?)");
+$stmt->bind_param("ssi", $nome, $cognome, $eta);
+
+$nome = "Marco"; $cognome = "Rossi"; $eta = 17;
+
+if ($stmt->execute()) {
+  echo "Inserimento riuscito";
+}
+$stmt->close();
+$conn->close();
+
+16/01/2026 — SELECT e criteri di selezione
+Il comando SELECT indica cosa vuoi recuperare, FROM indica da quale tabella, e WHERE aggiunge condizioni di filtro.
+sqlSELECT * FROM Persona WHERE eta > 17;
+SELECT Nome, Cognome FROM Persona WHERE eta > 17 AND Nome = 'Anna';
+BETWEEN — seleziona un intervallo di valori (estremi inclusi):
+sqlSELECT * FROM Persona WHERE eta BETWEEN 10 AND 15;
+LIKE — filtra in base a pattern di testo. Si usa con % (qualsiasi numero di caratteri) e _ (esattamente un carattere):
+sqlSELECT * FROM Persona WHERE Nome LIKE 'A%';   -- nomi che iniziano con A
+SELECT * FROM Persona WHERE Nome LIKE '_A%';  -- nomi con A come seconda lettera
+AS — rinomina una colonna nel risultato (alias). Utile ad esempio quando si fanno calcoli:
+sqlSELECT nome, prezzo * 0.85 AS Prezzo_Scontato FROM prodotto;
+
+18/02 — DISTINCT e JOIN
+DISTINCT — elimina i duplicati dal risultato:
+sqlSELECT DISTINCT citta FROM clienti;
+JOIN
+Il JOIN permette di mettere in relazione due o più tabelle. Esistono diversi tipi:
+Cross Join — produce il prodotto cartesiano: ogni riga della prima tabella viene combinata con ogni riga della seconda. Raramente usato direttamente.
+Equi Join — unisce le tabelle usando il classico = nella clausola WHERE:
+sqlSELECT * FROM camera, prenota WHERE camera.codice = prenota.codice;
+Inner Join — restituisce solo le righe che hanno una corrispondenza in entrambe le tabelle:
+sqlSELECT * FROM camera INNER JOIN prenota ON camera.codice = prenota.codice;
+Left Join — restituisce tutte le righe della tabella di sinistra. Se non c'è corrispondenza nella tabella di destra, i campi di destra assumono valore NULL.
+Right Join — speculare al Left Join: restituisce tutt
