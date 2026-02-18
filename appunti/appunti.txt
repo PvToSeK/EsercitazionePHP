@@ -242,3 +242,34 @@ parola riservata: AS
 modifica dei campi:
 1. SELECT nome,descrizione, prezzo * 0.85 FROM prodotto AS Prezzo_Scontato
 2. SELECT nome,descrizione, prezzo * 0.85 FROM prodotto Prezzo_Scontato
+
+18/02
+parola riservata DISTINCT
+ricevere risultati non doppi
+JOIN
+Costrutto del linguaggio SQL attraverso il quale vengono messe in relazione due tabelle.
+Tipi di Join
+Cross Join
+Equi Join
+Inner Join
+Left Join
+Right Join
+Cross Join
+-E' il prodotto cartesiano tra più tabelle.
+-Tra due tabelle, ciascuna riga della prima tabelle, 
+ viene combinata con ciascuna riga della seconda tabella.
+
+  ESEMPIO DI INNER JOIN:
+  SELECT * FROM camera INNER JOIN prenota
+  ON camera.codice prenota.codice
+
+
+  ESEMPIO DI EQUI JOIN:
+  Unisce più tabelle usando l'operatore logico di ugualianza =
+  Esempio
+  SELECT * FROM camera, prenota WHERE camera.codice prenota.codice
+
+LEFT JOIN: restituisce tutte le righe della tabella di sinistra e le corrispondenti della tabella di destra; in assenza di corrispondenza, 
+i campi della tabella destra assumono valore NULL.
+RIGHT JOIN: restituisce tutte le righe della tabella di destra e le corrispondenti della tabella di sinistra; in assenza di corrispondenza,
+i campi della tabella sinistra assumono valore NULL.

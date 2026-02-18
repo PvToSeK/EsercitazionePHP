@@ -4,7 +4,7 @@ CREATE TABLE Biblioteca.utente (
     id_utente INT PRIMARY KEY,
     nome VARCHAR(20) NOT NULL,
     cognome VARCHAR(20) NOT NULL,
-    email VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
     eta INT CHECK (eta >= 14)
 );
 
@@ -40,7 +40,8 @@ INSERT INTO Biblioteca.utente VALUES
 (5, 'Anna', 'Gialli', 'anna.gialli@hotmail.com', 22),
 (6, 'Marco', 'Blu', 'marco.blu@gmail.com', 17),
 (7, 'Elena', 'Rosa', 'elena.rosa@libero.it', 28),
-(8, 'Davide', 'Marroni', 'davide.marroni@gmail.com', 15);
+(8, 'Davide', 'Marroni', 'davide.marroni@gmail.com', 15),
+(9, 'Nicolo', 'Rossi', 'nicolo.rossi@gigi.com', 23);
 
 
 INSERT INTO Biblioteca.libro VALUES
@@ -53,17 +54,33 @@ INSERT INTO Biblioteca.libro VALUES
 (7, 'Ready Player One', 'Ernest Cline', '9788804700007', 2011),
 (8, 'Il Labirinto', 'James Dashner', '9788804710008', 2012);
 
-INSERT INTO Biblioteca.prestito VALUES 
-(1, 1, 1, '2024-01-10', '2024-01-20'),
-(2, 2, 2, '2024-02-01', NULL),
-(3, 3, 1, '2024-02-15', '2024-02-28'),
-(4, 4, 3, '2024-03-01', NULL);
-
+INSERT INTO Biblioteca.prestito VALUES
+(5, 1, 2, '2026-04-10', '2026-04-20'),
+(6, 2, 3, '2023-05-12', '2023-05-22'),
+(7, 3, 4, '2024-06-01', NULL),
+(8, 5, 5, '2026-07-15', '2026-07-25'),
+(9, 6, 6, '2025-01-10', NULL),
+(10, 1, 3, '2024-09-05', '2024-09-15'),
+(11, 7, 8, '2023-11-20', '2023-12-01'),
+(12, 5, 1, '2024-10-02', NULL),
+(13, 2, 9, '2026-02-15', NULL);
 
 
 SELECT * FROM biblioteca.utente;
 SELECT * FROM biblioteca.libro;
 SELECT * FROM biblioteca.utente where eta<18;
-SELECT * FROM biblioteca.libro where anno_pubblicazione>2009;
-SELECT nome,cognome,eta FROM biblioteca.utente where email LIKE '%@gmail.com';
+SELECT * FROM biblioteca.libro where anno_pubblicazione>2010;
+SELECT nome,cognome,eta FROM biblioteca.utente where email LIKE '%@gmail%';
+SELECT distinct nome,cognome FROM biblioteca.utente;
+SELECT * FROM biblioteca.utente where cognome LIKE 'B%';
+
+SELECT DISTINCT libro.titolo, libro.autore FROM Biblioteca.libro 
+JOIN Biblioteca.prestito ON libro.id_libro = prestito.id_libro 
+WHERE prestito.data_prestito LIKE  '2026%';
+
+SELECT * FROM Biblioteca.libro 
+JOIN Biblioteca.prestito ON libro.id_libro = prestito.id_libro
+JOIN Biblioteca.utente ON prestito.id_utente = utente.id_utente
+ WHERE utente.email = 'nicolo.rossi@gigi.com'
+ 
 
