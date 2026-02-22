@@ -10,8 +10,8 @@ CREATE TABLE Biblioteca.utente (
 
 CREATE TABLE Biblioteca.libro (
     id_libro INT PRIMARY KEY,
-    titolo VARCHAR(20) NOT NULL,
-    autore VARCHAR(20) NOT NULL,
+    titolo VARCHAR(50) NOT NULL,
+    autore VARCHAR(50) NOT NULL,
     isbn VARCHAR(13) UNIQUE,
     anno_pubblicazione INT CHECK (anno_pubblicazione >= 1500)
 );
@@ -22,50 +22,53 @@ CREATE TABLE Biblioteca.prestito (
     id_utente INT,
     data_prestito DATE NOT NULL,
     data_restituzione DATE CHECK (data_restituzione > data_prestito),
-
-    CONSTRAINT fk_prestito_utente
-        FOREIGN KEY (id_utente)
-        REFERENCES Biblioteca.utente(id_utente),
-
-    CONSTRAINT fk_prestito_libro
-        FOREIGN KEY (id_libro)
-        REFERENCES Biblioteca.libro(id_libro)
+    CONSTRAINT fk_prestito_utente FOREIGN KEY (id_utente) REFERENCES Biblioteca.utente(id_utente),
+    CONSTRAINT fk_prestito_libro FOREIGN KEY (id_libro) REFERENCES Biblioteca.libro(id_libro)
 );
 
 INSERT INTO Biblioteca.utente VALUES
-(1, 'Mario', 'Rossi', 'mario.rossi@gmail.com', 25),
-(2, 'Giulia', 'Bianchi', 'giulia.bianchi@yahoo.com', 19),
-(3, 'Luca', 'Verdi', 'luca.verdi@gmail.com', 34),
+(1, 'Mario', 'Rossi', 'mario.rossi@gmail.com', 26),
+(2, 'Francesca', 'Bianchi', 'francesca.bianchi@gmail.com', 28),
+(3, 'Luca', 'Verdi', 'luca.verdi@hotmail.com', 34),
 (4, 'Sara', 'Neri', 'sara.neri@gmail.com', 16),
 (5, 'Anna', 'Gialli', 'anna.gialli@hotmail.com', 22),
-(6, 'Marco', 'Blu', 'marco.blu@gmail.com', 17),
+(6, 'Fabio', 'Marroni', 'fabio.marroni@gmail.com', 29),
 (7, 'Elena', 'Rosa', 'elena.rosa@libero.it', 28),
-(8, 'Davide', 'Marroni', 'davide.marroni@gmail.com', 15),
-(9, 'Nicolo', 'Rossi', 'nicolo.rossi@gigi.com', 23);
-
+(8, 'Davide', 'Felli', 'davide.felli@gmail.com', 19),
+(9, 'Nicolo', 'Rossi', 'nicolo.rossi@gigi.com', 23),
+(10, 'Federico', 'Bianchi', 'federico.bianchi@gmail.com', 32),
+(13, 'Paolo', 'Galli', 'paolo.galli@gmail.com', 30);
 
 INSERT INTO Biblioteca.libro VALUES
-(1, 'Il Nome della Rosa', 'Umberto Eco', '9788845240001', 1980),
+(1, 'Storia d\'amore', 'Umberto Eco', '9788845240001', 1980),
 (2, '1984', 'George Orwell', '9780451520002', 1949),
 (3, 'Il Codice Da Vinci', 'Dan Brown', '9788804660003', 2003),
-(4, 'Hunger Games', 'Suzanne Collins', '9788804670004', 2008),
+(4, 'Amore e Guerra', 'Suzanne Collins', '9788804670004', 2008),
 (5, 'Il Trono di Spade', 'George R. R. Martin', '9788804680005', 2011),
 (6, 'Inferno', 'Dan Brown', '9788804690006', 2013),
 (7, 'Ready Player One', 'Ernest Cline', '9788804700007', 2011),
-(8, 'Il Labirinto', 'James Dashner', '9788804710008', 2012);
+(8, 'Il Labirinto della Storia', 'James Dashner', '9788804710008', 2012),
+(9, 'Storia Segreta', 'Umberto Eco', '9788804720009', 1890),
+(10, 'Amore e Psiche', 'Dan Brown', '9788804730010', 1700),
+(11, 'Vecchia Storia', 'George Orwell', '9788804740011', 1600),
+(12, 'Libro Senza ISBN', 'Autore X', NULL, 2000);
 
 INSERT INTO Biblioteca.prestito VALUES
-(5, 1, 2, '2026-04-10', '2026-04-20'),
-(6, 2, 3, '2023-05-12', '2023-05-22'),
-(7, 3, 4, '2024-06-01', NULL),
-(8, 5, 5, '2026-07-15', '2026-07-25'),
-(9, 6, 6, '2025-01-10', NULL),
-(10, 1, 3, '2024-09-05', '2024-09-15'),
-(11, 7, 8, '2023-11-20', '2023-12-01'),
-(12, 5, 1, '2024-10-02', NULL),
-(13, 2, 9, '2026-02-15', NULL);
+(1, 1, 2, '2020-03-10', '2020-03-20'),
+(2, 2, 3, '2020-06-15', '2020-06-25'),
+(3, 3, 4, '2020-11-05', NULL),
+(4, 4, 5, '2021-02-12', '2021-02-22'),
+(5, 5, 6, '2024-01-10', NULL),
+(6, 6, 1, '2024-05-05', '2024-05-15'),
+(7, 7, 8, '2024-08-20', '2024-08-30'),
+(8, 8, 9, '2024-09-10', NULL),
+(9, 9, 10, '2025-02-15', '2025-02-25'),
+(10, 10, 2, '2021-07-01', '2021-07-11'),
+(11, 11, 5, '2024-03-15', '2024-03-25'),
+(12, 12, 6, '2023-08-10', '2023-08-20'),
+(13, 1, 13, '2025-06-10', '2025-06-20');
 
-
+ -- Esercitazione 1
 SELECT * FROM biblioteca.utente;
 SELECT * FROM biblioteca.libro;
 SELECT * FROM biblioteca.utente where eta<18;
@@ -81,6 +84,61 @@ WHERE prestito.data_prestito LIKE  '2026%';
 SELECT * FROM Biblioteca.libro 
 JOIN Biblioteca.prestito ON libro.id_libro = prestito.id_libro
 JOIN Biblioteca.utente ON prestito.id_utente = utente.id_utente
- WHERE utente.email = 'nicolo.rossi@gigi.com'
+ WHERE utente.email = 'nicolo.rossi@gigi.com';
+
+
+ SELECT libro.titolo, libro.autore FROM Biblioteca.libro
+ JOIN Biblioteca.prestito ON libro.id_libro = prestito.id_libro
+ WHERE data_prestito BETWEEN '2021-01-01' AND '2025-12-31';
  
+SELECT DISTINCT libro.titolo, libro.autore
+FROM Biblioteca.libro
+JOIN Biblioteca.prestito ON libro.id_libro = prestito.id_libro
+JOIN Biblioteca.utente ON prestito.id_utente = utente.id_utente
+WHERE utente.eta BETWEEN 18 AND 24;
+ 
+ SELECT libro.titolo, libro.autore, utente.nome,utente.cognome
+ FROM Biblioteca.libro
+ JOIN Biblioteca.prestito ON libro.id_libro = prestito.id_libro
+ JOIN Biblioteca.utente ON prestito.id_utente = utente.id_utente
+ WHERE prestito.data_prestito BETWEEN '2020-01-01' AND '2020-12-31';
+
+ -- Esercitazione 2
+ SELECT * FROM Utente WHERE eta>=25;
+ SELECT * FROM Utente WHERE nome LIKE 'F%';
+ SELECT * FROM Utente WHERE email LIKE '%gmail%';
+ SELECT * FROM Utente WHERE cognome LIKE '%lli';
+ SELECT * FROM Utente WHERE eta BETWEEN 18 AND 30;
+ SELECT DISTINCT autore FROM Libro; 
+ SELECT * FROM Libro where titolo LIKE '%amore%';
+ SELECT * FROM Libro WHERE anno_pubblicazione<1900;
+ SELECT * FROM Libro WHERE isbn IS NOT NULL;
+ SELECT * FROM Prestito WHERE data_restituzione IS NULL;
+ SELECT * FROM Prestito WHERE data_prestito BETWEEN '2024-01-01' AND '2024-12-31';
+ 
+ SELECT Utente.nome,Utente.cognome,Prestito.data_prestito FROM Utente
+ JOIN Biblioteca.prestito ON prestito.id_utente = utente.id_utente;
+
+SELECT DISTINCT Libro.titolo FROM Libro
+JOIN Biblioteca.prestito ON libro.id_libro = prestito.id_libro;
+ 
+SELECT Utente.nome, Libro.titolo  FROM Utente
+JOIN Prestito ON utente.id_utente= prestito.id_utente
+JOIN Libro ON prestito.id_libro = libro.id_libro;
+
+SELECT * FROM Prestito
+JOIN Utente ON  utente.id_utente = prestito.id_utente
+WHERE Utente.cognome = 'Galli';
+
+SELECT * FROM Libro
+JOIN Prestito ON libro.id_libro= prestito.id_libro
+WHERE libro.titolo LIKE '%storia%';
+
+SELECT DISTINCT email FROM Utente
+JOIN Prestito  ON Utente.id_utente = Prestito.id_utente;
+
+SELECT titolo FROM Libro
+JOIN Prestito ON libro.id_libro = prestito.id_libro
+WHERE anno_pubblicazione BETWEEN 1500 AND 1700;
+
 
