@@ -37,7 +37,10 @@ INSERT INTO Biblioteca.utente VALUES
 (8, 'Davide', 'Felli', 'davide.felli@gmail.com', 19),
 (9, 'Nicolo', 'Rossi', 'nicolo.rossi@gigi.com', 23),
 (10, 'Federico', 'Bianchi', 'federico.bianchi@gmail.com', 32),
-(13, 'Paolo', 'Galli', 'paolo.galli@gmail.com', 30);
+(13, 'Paolo', 'Galli', 'paolo.galli@gmail.com', 30),
+(14, 'Marco', 'Blu', 'marco.blu@gmail.com', 14),
+(15, 'Giulia', 'Viola', 'giulia.viola@gmail.com', 15),
+(16, 'Roberto', 'Nero', 'roberto.nero@gmail.com', 50);
 
 INSERT INTO Biblioteca.libro VALUES
 (1, 'Storia d\'amore', 'Umberto Eco', '9788845240001', 1980),
@@ -51,7 +54,12 @@ INSERT INTO Biblioteca.libro VALUES
 (9, 'Storia Segreta', 'Umberto Eco', '9788804720009', 1890),
 (10, 'Amore e Psiche', 'Dan Brown', '9788804730010', 1700),
 (11, 'Vecchia Storia', 'George Orwell', '9788804740011', 1600),
-(12, 'Libro Senza ISBN', 'Autore X', NULL, 2000);
+(12, 'Libro Senza ISBN', 'Autore X', NULL, 2000),
+(13, 'Il Barone Rampante', 'Italo Calvino', '9788804500001', 2020),
+(14, 'Se una notte d\'inverno un viaggiatore', 'Italo Calvino', '9788804500002', 2022),
+(15, 'Il Nome della Rosa', 'Umberto Eco', '9788804500003', 2026),
+(16, 'L\'amica geniale', 'Elena Ferrante', '9788804500004', 2020),
+(17, 'Libro Nuovo', 'Autore Y', '9788804500010', 2025);
 
 INSERT INTO Biblioteca.prestito VALUES
 (1, 1, 2, '2020-03-10', '2020-03-20'),
@@ -66,7 +74,11 @@ INSERT INTO Biblioteca.prestito VALUES
 (10, 10, 2, '2021-07-01', '2021-07-11'),
 (11, 11, 5, '2024-03-15', '2024-03-25'),
 (12, 12, 6, '2023-08-10', '2023-08-20'),
-(13, 1, 13, '2025-06-10', '2025-06-20');
+(13, 1, 13, '2025-06-10', '2025-06-20'),
+(14, 13, 1, '2024-10-01', NULL),
+(15, 14, 2, '2024-10-05', '2024-10-15'),
+(16, 15, 3, '2024-11-01', NULL),
+(17, 16, 4, '2024-11-10', '2024-11-20');
 
  -- Esercitazione 1
 SELECT * FROM biblioteca.utente;
@@ -141,4 +153,30 @@ SELECT titolo FROM Libro
 JOIN Prestito ON libro.id_libro = prestito.id_libro
 WHERE anno_pubblicazione BETWEEN 1500 AND 1700;
 
+-- Esercitazione3
+SELECT Utente.nome,Utente.cognome, Utente.eta FROM Utente
+WHERE Utente.eta IN(14,15,22,50);
+
+SELECT Utente.nome,Utente.cognome,Utente.email FROM Utente
+INNER JOIN Prestito ON Utente.id_utente = Prestito.id_utente
+INNER JOIN Libro ON Libro.id_libro = Prestito.id_libro
+WHERE Libro.autore IN('Italo Calvino','Umberto Eco','Elena Ferrante');
+
+SELECT * FROM Prestito
+INNER JOIN Libro ON libro.id_libro = Prestito.id_libro
+WHERE Libro.anno_pubblicazione IN(2020,2022,2026);
+
+SELECT Utente.nome,Utente.cognome,Utente.email  FROM Utente
+INNER JOIN Prestito ON Utente.id_utente=Prestito.id_utente
+INNER JOIN Libro ON Libro.id_libro=Prestito.id_libro
+WHERE Libro.isbn IS NOT NULL;
+
+SELECT * FROM Prestito
+WHERE data_restituzione IS NULL;
+
+SELECT * FROM Prestito
+WHERE Prestito.data_restituzione IS NOT NULL;
+
+SELECT Libro.titolo,Libro.autore,Libro.isbn FROM Libro
+WHERE id_libro NOT IN (SELECT Prestito.id_libro FROM Prestito);
 
