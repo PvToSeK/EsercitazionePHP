@@ -179,4 +179,17 @@ WHERE Prestito.data_restituzione IS NOT NULL;
 
 SELECT Libro.titolo,Libro.autore,Libro.isbn FROM Libro
 WHERE id_libro NOT IN (SELECT Prestito.id_libro FROM Prestito);
+ -- Esercitazione 4
+ SELECT nome,cognome, COUNT(Prestito.id_prestito) AS numero_prestiti FROM Utente
+ LEFT JOIN Prestito ON Utente.id_utente = Prestito.id_utente
+ GROUP BY Utente.id_utente, Utente.nome,Utente.cognome;
+ 
+ SELECT Libro.titolo, COUNT(Prestito.id_prestito) AS numero_prestiti FROM Libro
+ LEFT JOIN Prestito ON Prestito.id_libro= Libro.id_libro
+ GROUP BY Libro.titolo;
 
+SELECT AVG(eta) AS eta_media FROM Utente;
+
+SELECT Libro.autore, COUNT(Prestito.id_prestito) AS numero_prestiti FROM Libro
+LEFT JOIN Prestito ON Libro.id_libro = Prestito.id_libro
+group by Libro.autore
