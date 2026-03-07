@@ -15,11 +15,13 @@ $result = mysqli_query($conn,$query);
 
 if($result -> num_rows > 0){
     while($riga = $result -> fetch_assoc()){
-        echo "Nome: ".$riga["nome"].<br>; 
-        echo "Cognome: ".$riga["cognome"].<br>; 
-        echo "Eta: ".$riga["eta"].<br>;
+        echo "Nome: ".$riga["nome"]."<br>"; 
+        echo "Cognome: ".$riga["cognome"]."<br>"; 
+        echo "Eta: ".$riga["eta"]."<br>";
         
     }
+}else{
+    echo "Nessun utente trovato per l'età $eta ";
 }
 }
 
