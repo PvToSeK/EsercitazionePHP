@@ -5,7 +5,8 @@ CREATE TABLE Biblioteca.utente (
     nome VARCHAR(20) NOT NULL,
     cognome VARCHAR(20) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    eta INT CHECK (eta >= 14)
+    eta INT CHECK (eta >= 14),
+    psw VARCHAR(100) CHECK (char_length(psw >= 8))
 );
 
 CREATE TABLE Biblioteca.libro (
