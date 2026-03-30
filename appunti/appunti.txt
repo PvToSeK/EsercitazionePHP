@@ -299,3 +299,33 @@ Codice più pulito : separando i dati dai comandi SQL.
 cos'è un oggetto pdo?
 
 
+
+30/03
+Normalizzazione cos'è?
+Schema fisico può essere soggetto ad anomalie e duplicazione dei dati.
+Es: Una banca con un conto corrente che si ripete più volte.
+Es: Cancello delle tuple ma queste tuple erano referenziate a un'altra tabella e quindi ora non c'è coerenza.
+Come ovviare?
+La forma normale: sono una serie di piccole verifiche che devo fare sul database,
+1° forma normale: tutte le tabelle devono avere una primary key e tutte devono avere campi atomici cioè non possono essere scomposti.
+2° forma normale: dipendenza funzionale e decomposizione senza perdite
+
+Esercitazione:
+Ordini:
+Prodotto --> prezzo
+ID_Ordine --> Cliente
+ID_Ordine --> Prodotto
+ID_Ordine --> Quantita
+ID_Ordine --> prezzo
+
+Iscrizione_corso:
+CodCorso --> NomeCorso
+
+Prescrizioni:
+codMedico -> Specializzazione
+
+Fatture:
+RagSociale -> citta.
+
+Voli:
+ModelloAereo--> capienza
