@@ -309,6 +309,7 @@ Come ovviare?
 La forma normale: sono una serie di piccole verifiche che devo fare sul database,
 1° forma normale: tutte le tabelle devono avere una primary key e tutte devono avere campi atomici cioè non possono essere scomposti.
 2° forma normale: dipendenza funzionale e decomposizione senza perdite
+3° forma normale: non ci possono essere altre dipendenze funzionali transiive al di fuori della PK: anomalia funzionali cosa sono(?)
 
 Esercitazione:
 Ordini:
