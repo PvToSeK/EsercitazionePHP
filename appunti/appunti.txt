@@ -273,3 +273,60 @@ LEFT JOIN: restituisce tutte le righe della tabella di sinistra e le corrisponde
 i campi della tabella destra assumono valore NULL.
 RIGHT JOIN: restituisce tutte le righe della tabella di destra e le corrispondenti della tabella di sinistra; in assenza di corrispondenza,
 i campi della tabella sinistra assumono valore NULL.
+
+
+Una query restituisce una tabella, vuota quindi con 0 rows perché è sbagliata o più righe se è corretta.
+SELECT x FROM Utenti while login = $_POST["login"] and password= $_POST["password"]
+Nella sessione salvo:
+Primary key che corrisponde alla chiave primaria.
+
+
+Le istruzioni preparate PHP MySQL vengono utilizzate principalmente per prevenire attacchi di SQL injection e per migliorare le prestazioni.
+
+Le istruzioni preparate separano i dati dai comandi SQL.
+
+Le dichiarazioni preparate funzionano sostanzialmente in questo modo:
+
+Preparazione: Un modello di query SQL con segnaposto viene inviato al server. I valori dei dati non vengono inviati. Esempio: INSERT INTO MyGuests VALUES(?, ?, ?). Successivamente, il server analizza, compila e ottimizza il modello di query SQL, senza eseguirlo.
+Esecuzione: Successivamente, l'applicazione associa i valori ai parametri e il database esegue la query. L'applicazione può eseguire la query tutte le volte che vuole con valori diversi.
+Le dichiarazioni preparate presentano quattro vantaggi principali:
+
+Tempo di analisi ridotto : la preparazione della query viene eseguita una sola volta (anche se l'istruzione viene eseguita più volte).
+Riduzione al minimo della larghezza di banda : i parametri associati riducono al minimo la larghezza di banda verso il server, poiché è necessario inviare solo i parametri ogni volta e non l'intera query.
+Sicurezza - Le istruzioni preparate sono molto utili contro le iniezioni SQL, perché i valori dei parametri, che vengono trasmessi successivamente utilizzando un protocollo diverso, non necessitano di essere correttamente sottoposti a escape. Se il modello di istruzione originale non deriva da input esterni, non può verificarsi un'iniezione SQL.
+Codice più pulito : separando i dati dai comandi SQL.
+
+cos'è un oggetto pdo?
+
+
+
+30/03
+Normalizzazione cos'è?
+Schema fisico può essere soggetto ad anomalie e duplicazione dei dati.
+Es: Una banca con un conto corrente che si ripete più volte.
+Es: Cancello delle tuple ma queste tuple erano referenziate a un'altra tabella e quindi ora non c'è coerenza.
+Come ovviare?
+La forma normale: sono una serie di piccole verifiche che devo fare sul database,
+1° forma normale: tutte le tabelle devono avere una primary key e tutte devono avere campi atomici cioè non possono essere scomposti.
+2° forma normale: dipendenza funzionale e decomposizione senza perdite
+3° forma normale: non ci possono essere altre dipendenze funzionali transiive al di fuori della PK: anomalia funzionali cosa sono(?)
+
+Esercitazione:
+Ordini:
+Prodotto --> prezzo
+ID_Ordine --> Cliente
+ID_Ordine --> Prodotto
+ID_Ordine --> Quantita
+ID_Ordine --> prezzo
+
+Iscrizione_corso:
+CodCorso --> NomeCorso
+
+Prescrizioni:
+codMedico -> Specializzazione
+
+Fatture:
+RagSociale -> citta.
+
+Voli:
+ModelloAereo--> capienza
