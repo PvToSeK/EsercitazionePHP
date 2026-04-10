@@ -190,6 +190,7 @@ WHERE id_libro NOT IN (SELECT Prestito.id_libro FROM Prestito);
 
 SELECT AVG(eta) AS eta_media FROM Utente;
 
-SELECT Libro.autore, COUNT(Prestito.id_prestito) AS numero_prestiti FROM Libro
-LEFT JOIN Prestito ON Libro.id_libro = Prestito.id_libro
-group by Libro.autore
+SELECT MIN(eta),MAX(eta),AVG (eta) FROM Utente
+JOIN Prestito ON Prestito.id_utente=Utente.id_utente;
+SELECT MIN(eta),MAX(eta),AVG (eta) FROM Utente
+WHERE id_utente IN(SELECT DISTINCT id_utente FROM Prestito)
